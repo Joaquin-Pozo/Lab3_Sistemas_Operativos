@@ -211,6 +211,29 @@ int main (int argc, char *argv[]) {
 
     // Realiza el procesamiento de ventas utilizando hebras
     conteoConThreads(ventasCyberday, cantidadVentasCyberday, cantidadThreads, ofertasCyberday, cantidadOfertasCyberday);
+
+    char input[50];
+    int salida = 1;
+    while (salida) {
+        printf("Ingrese el nombre del producto para ver sus unidades vendidas: ");
+        scanf("%s", input);
+        printf("%s\n", input);
+        if (strcmp(input, "salida") == 0) {
+            salida = 0;
+            break;
+        }
+        for (int i = 0; i < cantidadOfertasCyberday; i++) {
+            if (strcmp(input, ofertasCyberday[i].producto) == 0) {
+                printf("\nUnidades: %i", ofertasCyberday[i].cantidadVentas);
+                salida = -1;
+                break;
+            }
+        }
+        if (salida != 1) {
+            printf("El nombre ingresado no corresponde a ningún producto en oferta.\n");
+            salida = 1;
+        }
+    }
     
     // Libera memoria asignada con malloc
     for (int i = 0; i < cantidadVentasCyberday; i++) {
