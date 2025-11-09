@@ -213,24 +213,28 @@ int main (int argc, char *argv[]) {
     conteoConThreads(ventasCyberday, cantidadVentasCyberday, cantidadThreads, ofertasCyberday, cantidadOfertasCyberday);
 
     char input[50];
+    // Flag para salir
     int salida = 1;
+    // Loop para mostrar las unidades vendidas de los productos en oferta
     while (salida) {
-        printf("Ingrese el nombre del producto para ver sus unidades vendidas: ");
-        scanf("%s", input);
-        printf("%s\n", input);
+        printf("Ingrese el nombre del producto en oferta para ver sus unidades vendidas: ");
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = '\0';
+
         if (strcmp(input, "salida") == 0) {
             salida = 0;
             break;
         }
         for (int i = 0; i < cantidadOfertasCyberday; i++) {
             if (strcmp(input, ofertasCyberday[i].producto) == 0) {
-                printf("\nUnidades: %i", ofertasCyberday[i].cantidadVentas);
+                printf("Unidades vendidas: %i.\n", ofertasCyberday[i].cantidadVentas);
                 salida = -1;
                 break;
             }
         }
-        if (salida != 1) {
+        if (salida != -1) {
             printf("El nombre ingresado no corresponde a ningún producto en oferta.\n");
+        } else {
             salida = 1;
         }
     }
