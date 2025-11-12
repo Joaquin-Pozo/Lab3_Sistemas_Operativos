@@ -46,8 +46,10 @@ char **leerArchivoVentas(const char *nombreArchivo, int *cantidadProductos) {
     // Lee el archivo hasta el final
     while (fgets(string, sizeof(string), archivo)) {
 
-        // Elimina el salto de linea y el caracter \r (en caso de que se haya pasado), intercambiandolo por el caracter nulo
+        // Elimina el salto de linea (\n) y el caracter \r (a veces se queda pegado si se edita en windows)
         string[strcspn(string, "\r\n")] = '\0';
+        // Si hay un salto de linea sin contenido, lo salta
+        if (strlen(string) == 0) continue;
         
         // Si el arreglo se llena, aumenta su capacidad en un 50%
         if (*cantidadProductos >= lineas) {
@@ -219,6 +221,7 @@ int main (int argc, char *argv[]) {
     while (salida) {
         printf("Ingrese el nombre del producto en oferta para ver sus unidades vendidas: ");
         fgets(input, sizeof(input), stdin);
+        // elimina el salto de linea
         input[strcspn(input, "\n")] = '\0';
 
         if (strcmp(input, "salida") == 0) {
@@ -238,6 +241,8 @@ int main (int argc, char *argv[]) {
             salida = 1;
         }
     }
+
+    printf("Ejecución finalizada.\n");
     
     // Libera memoria asignada con malloc
     for (int i = 0; i < cantidadVentasCyberday; i++) {
